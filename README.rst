@@ -33,7 +33,7 @@ Here is how you could use it:
     			await I.say("Correct!")
     			break
 
-    loop = BotConversationLoop("YOUR-API-TOKEN", conversationEntry)
-    signal.signal(signal.SIGINT, lambda _, __: loop.shutdown())
-    loop.enableDebug()
-    loop.startBotPolling()
+	loop = BotConversationLoop("YOUR-API-TOKEN", conversationEntry)
+	signal.signal(signal.SIGINT, lambda _, __: loop.shutdown())
+	loop.enableDebug()
+	loop.startBotPolling()
