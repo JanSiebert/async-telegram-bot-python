@@ -45,13 +45,17 @@ class Dummy:
 def simplifyText(txt):
 	return txt.replace("\n", " ")
 
-class BotConversationLoop(asyncio.SelectorEventLoop):
-	def __init__(self, token, conversationEntry):
+def get_conversation_manager(token, conversationEntry, loop = None):
+	return BotConversationLoop(loop or asyncio.get_event_loop(), token, conversationEntry)
+
+class BotConversationLoop:
+	def __init__(self, loop, token, conversationEntry):
 		super().__init__()
 		self._token = token
 		self._conversationEntry = conversationEntry
-		self._updateter = TelegramUpdater(token, self)
-		self._sender = TelegramSender(token, self)
+		self._updateter = TelegramUpdater(token, loop)
+		self._sender = TelegramSender(token, loop)
+		self._loop = loop
 
 		self._conversations = {}
 		self._shouldContinue = True
@@ -76,11 +80,11 @@ class BotConversationLoop(asyncio.SelectorEventLoop):
 			self._removeConversation(chatId)
 
 	def gotAnswer(self, chatId):
-		self._conversations[chatId].waitForAnswer = self.create_future()
+		self._conversations[chatId].waitForAnswer = self._loop.create_future()
 		return self._conversations[chatId].waitForAnswer
 
 	def shutdown(self):
-		self.call_soon_threadsafe(self._shutdown_threadsafe_entry)
+		self._loop.call_soon_threadsafe(self._shutdown_threadsafe_entry)
 
 	def _shutdown_threadsafe_entry(self):
 		self._shouldContinue = False
@@ -122,14 +126,14 @@ class BotConversationLoop(asyncio.SelectorEventLoop):
 			newCoroutine = self._conversationEntry(newI)
 			newConversation = Dummy()
 			newConversation.identity = newI
-			newConversation.coro = self.create_task(newCoroutine)
+			newConversation.coro = self._loop.create_task(newCoroutine)
 			newConversation.waitForAnswer = None
 			self._conversations[msg.chatId] = newConversation
 
 	def startBotPolling(self, maxSleep = 5, maxTimeout = 5):
 		self._updateter.maxSleep = maxSleep
 		self._updateter.timeoutInterval = maxTimeout
-		self.run_until_complete(self.pollLoop())
+		self._loop.run_until_complete(self.pollLoop())
 
 	async def pollLoop(self):
 		while self._shouldContinue:
