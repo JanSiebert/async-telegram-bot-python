@@ -12,7 +12,7 @@ setup(
   author = 'Jan Siebert',
   author_email = 'jansie@live.com',
   url = 'https://github.com/JanSiebert/async-telegram-bot-python',
-  download_url = 'https://github.com/JanSiebert/async-telegram-bot-python/tarball/0.2',
+  download_url = 'https://github.com/JanSiebert/async-telegram-bot-python/tarball/0.1',
   keywords = ['testing', 'async', 'bot', 'api', 'telegram', 'wrapper'],
   classifiers = [],
 )
