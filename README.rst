@@ -22,7 +22,7 @@ Here is how you could use it:
     	await I.say("Can you guess my number between 1 and 100?")
     	while True:
     		answer = await I.gotAnswer()
-    		if not answer.idsigit():
+    		if not answer.isdigit():
     			await I.say("Sorry, I did not understand.")
     			continue
     		if int(answer) > number:
