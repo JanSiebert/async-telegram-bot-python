@@ -35,5 +35,5 @@ Here is how you could use it:
 
     loop = BotConversationLoop("YOUR-API-TOKEN", conversationEntry)
     signal.signal(signal.SIGINT, lambda _, __: loop.shutdown())
-	loop.enableDebug()
-	loop.startBotPolling()
+    loop.enableDebug()
+    loop.startBotPolling()
