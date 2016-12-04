@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'AsyncTelegramBot',
   packages = ['AsyncTelegramBot'],
-  version = '0.1',
+  version = '0.01',
   description = 'Wrapper for Telegram`s Bot API utilizing asyncio',
   author = 'Jan Siebert',
   author_email = 'jansie@live.com',
