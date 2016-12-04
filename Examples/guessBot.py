@@ -1,4 +1,4 @@
-from AsyncTelegramBot import BotConversationLoop
+from AsyncTelegramBot import get_conversation_manager
 from random import randint
 import signal
 
@@ -17,7 +17,7 @@ async def conversationEntry(I):
     	else:
     		await I.say("Correct!")
     		break
-loop = BotConversationLoop("API-TOKEN", conversationEntry)
+loop = get_conversation_manager("API-TOKEN", conversationEntry)
 signal.signal(signal.SIGINT, lambda _, __: loop.shutdown())
 loop.enableDebug()
 loop.startBotPolling()
